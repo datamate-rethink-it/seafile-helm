@@ -1,0 +1,13 @@
+apiVersion: v2
+name: seafile
+version: 11.0.12
+appVersion: 6.3.1-91
+description: Seafile is an open source file sync and share platform, focusing on reliability and performance.
+home: https://seafile.com
+sources:
+  - https://github.com/haiwen/seafile
+  - https://github.com/datamate-rethink-it/seafile-helm
+maintainers:
+  - name: cdb
+    email: cdb@datamate.org
+dependencies:
