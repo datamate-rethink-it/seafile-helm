@@ -6,6 +6,5 @@ seafile/index.yaml
 seafile/requirements.lock
 values.yaml
 
-playground
+dev
 seafile/my-values.yaml
-seafile/dev_stuff
