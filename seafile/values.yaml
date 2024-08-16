@@ -1,0 +1,171 @@
+image: 
+  repository: datamate/seafile-professional
+
+timezone: Europe/Berlin
+
+seafileConfig:
+
+  # initial admin user 
+  initialAdminUser: admin@seafile.com
+  initialAdminPass: topsecret
+
+  # CONNECTIONS between containers...
+  # hier die verbindungskonfiguration für die einzelnen dienste. Wenn diese extern sind, dann einfach 
+  # bei den subcharts auf enable: false setzen.
+
+  # if you want to use external services like (external database, external s3 storage, external elasticsearch you have to do two things:)
+  # add to your my-values.yaml
+  # mariadb.enabled: false
+  # minio.enabled: false
+  # ...
+
+  # Then customize these settings according to your needs
+  
+  mariadb:
+    host: seafile-mariadb
+    port: 3306
+    user: root
+    pass: topsecret
+
+  useS3Storage: true ## TODO: will ich das wirklich so nennen?
+  s3:
+    host: seafile-minio
+    port: 9000
+    use_https: false
+    path_style_request: true
+    apiKey: minioadmin # key_id
+    apiKeyPass: topsecret # key
+    bucketNameBlocks: seafile-blocks
+    bucketNameCommits: seafile-commits
+    bucketNameFs: seafile-fs
+
+  # das hier nutze ich aktuell noch nicht...
+  #memcached:
+  #  host: seafile-memcached
+  #  port: 11211
+  #  # das hier geht schonmal...
+
+  #elasticsearch:
+  #  host: seafile-elasticsearch
+  #  port: 9200
+    
+  
+
+
+
+  storageVolume:
+    # Enable this for 'File' based storage in Zammad. You must provide an externally managed 'extistingClaim'
+    #   with 'ReadWriteMany' permisssion in this case.
+    enabled: false
+    ##
+    ## A manually managed Persistent Volume and Claim
+    ## If defined, PVC must be created manually before volume will be bound
+    ## The value is evaluated as a template, so, for example, the name can depend on .Release or .Chart
+    ##
+    # existingClaim:
+
+  tmpDirVolume:
+    emptyDir:
+      sizeLimit: 100Mi
+  # enable "medium: Memory" to Work around problems with world writable tmp dir permissions if volumePermissions.enabled is set to false
+  # see: https://github.com/kubernetes/kubernetes/issues/76158 & https://github.com/kubernetes/kubernetes/issues/110835
+  # medium: Memory
+
+# additional environment vars added to all seafile services
+extraEnv: []
+  #- name: FOO_BAR
+  #value: "foobar"
+
+#################
+# dependency charts config
+#################
+
+# Settings for the elasticsearch subchart
+
+elasticsearch:
+  enabled: true
+  clusterName: seafile-elasticsearch
+  master:
+    heapSize: 512m
+    masterOnly: false
+    replicaCount: 1 # deploys a single node elasticsearch
+  coordinating:
+    replicaCount: 0
+  data:
+    replicaCount: 0
+  ingest:
+    replicaCount: 0
+  # To use an existing Kubernetes secret containing the credentials,
+  # remove the comments on the lines below and adjust them accordingly
+  #
+  # security:
+  #   existingSecret: elastic-credentials
+
+memcached:
+  enabled: true
+  replicaCount: 1
+  resources: {}
+    # requests:
+    #   cpu: 50m
+    #   memory: 64Mi
+    # limits:
+    #   cpu: 100m
+    #   memory: 128Mi
+
+# settings for the minio subchart
+minio:
+  enabled: true
+  mode: standalone # standalone geht, aber dann wird der content direkt gelöscht, weil kein statefulset. Besser ist distributed, aber dann muss ich einen sidecar verwenden, damit die buckets angelegt werden.
+  persistence:
+    enabled: true
+    #storageClass: superdupa  # das nur, wenn ich eine existierende pvc habe... später einbauen.
+    #existingClaim: superdupa
+    # warum wird das pvc am ende gelöscht???
+    size: 21Gi
+  auth:
+    rootUser: minioadmin
+    rootPassword: topsecret
+    # Use existing secret for credentials details (auth.rootUser and
+    # auth.rootPassword will be ignored and picked up from this secret).
+    # The secret has to contain the keys root-user and root-password)
+    # existingSecret: minio-credentials
+
+  defaultBuckets: seafile-blocks,seafile-commits,seafile-fs
+
+  # You can use this to enable the web UI for debugging.
+  disableWebUI: true
+
+mariadb:
+  enabled: true
+  architecture: standalone
+  auth:
+    rootPassword: topsecret
+
+    #replicationUser: xxx
+    #replicationPassword: xxx
+
+    # ...
+
+    # ...
+    # existingSecret: 
+
+# settings for the redis subchart
+redis:
+  enabled: false
+  architecture: standalone
+  auth:
+    password: topsecret
+    # To avoid passwords in your values.yaml, you can comment out the line above
+    # and use an existing Kubernetes secret. Remove the comments on the lines below
+    # and adjust them accordingly
+    #
+    # existingSecret: redis-pass
+    # existingSecretPasswordKey: redis-password
+  master:
+    resources: {}
+    # limits:
+    #   cpu: 250m
+    #   memory: 256Mi
+    # requests:
+    #   cpu: 250m
+    #   memory: 256Mi

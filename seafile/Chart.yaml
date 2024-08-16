@@ -1,8 +1,28 @@
 apiVersion: v2
 name: seafile
-version: 11.0.12
-appVersion: 6.3.1-91
-description: Seafile is an open source file sync and share platform, focusing on reliability and performance.
+description: A Helm chart for Seafile. Seafile is an open source file sync and share platform, focusing on reliability and performance.
+
+# A chart can be either an 'application' or a 'library' chart.
+#
+# Application charts are a collection of templates that can be packaged into versioned archives
+# to be deployed.
+#
+# Library charts provide useful utilities or functions for the chart developer. They're included as
+# a dependency of application charts to inject those utilities and functions into the rendering
+# pipeline. Library charts do not define any templates and therefore cannot be deployed.
+type: application
+
+# This is the chart version. This version number should be incremented each time you make changes
+# to the chart and its templates, including the app version.
+# Versions are expected to follow Semantic Versioning (https://semver.org/)
+version: 0.1.0
+
+# This is the version number of the application being deployed. This version number should be
+# incremented each time you make changes to the application. Versions are not expected to
+# follow Semantic Versioning. They should reflect the version the application is using.
+# It is recommended to use it with quotes.
+appVersion: "11.0.13"
+
 home: https://seafile.com
 sources:
   - https://github.com/haiwen/seafile
@@ -10,4 +30,39 @@ sources:
 maintainers:
   - name: cdb
     email: cdb@datamate.org
+icon: https://de.seafile.com/wp-content/themes/seafileger/img/svg/seafile_logo_proposed.svg
+
 dependencies:
+  - name: memcached
+    version: 7.4.11 # version of the chart
+    # docker.io/bitnami/memcached:1.6.29-debian-12-r4
+    repository: https://charts.bitnami.com/bitnami
+    condition: memcached.enabled
+
+  - name: elasticsearch
+    #version: 21.3.8
+    # docker.io/bitnami/elasticsearch:8.15.0-debian-12-r1
+    # dieses neue chart ging nicht...
+    
+    version: 19.17.6
+    # docker.io/bitnami/elasticsearch:8.12.1-debian-11-r2
+    repository: https://charts.bitnami.com/bitnami
+    condition: elasticsearch.enabled
+
+  - name: minio
+    version: 14.7.0
+    # docker.io/bitnami/minio:2024.8.3-debian-12-r1
+    repository: https://charts.bitnami.com/bitnami
+    condition: minio.enabled
+
+  - name: mariadb
+    version: 19.0.4
+    # docker.io/bitnami/mariadb:11.4.3-debian-12-r0
+    repository: https://charts.bitnami.com/bitnami
+    condition: mariadb.enabled
+
+  - name: redis
+    version: 20.0.2
+    # docker.io/bitnami/redis:7.4.0-debian-12-r1
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis.enabled
