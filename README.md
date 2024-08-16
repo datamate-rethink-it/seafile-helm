@@ -1,7 +1,7 @@
 # Seafile Helm Chart
 
 [![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/datamate)](https://artifacthub.io/packages/search?repo=datamate)
-[![Release downloads](https://img.shields.io/github/downloads/datamate-rethink-i/seafile-helm/total.svg)](https://github.com/datamate-rethink-it/seafile-helm/releases)
+[![Release downloads](https://img.shields.io/github/downloads/datamate-rethink-it/seafile-helm/total.svg)](https://github.com/datamate-rethink-it/seafile-helm/releases)
 [![Release Charts](https://github.com/datamate-rethink-it/seafile-helm/workflows/Release%20Charts/badge.svg)](https://github.com/datamate-rethink-it/seafile-helm/commits/master)
 
 A [Helm](https://helm.sh) chart to install [Seafile](https://seafile.com), the open source file sync and share platform,
