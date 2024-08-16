@@ -5,7 +5,7 @@ permissions: read-all
 on:
   push:
     branches:
-      - main
+      - mainTest
 
 env:
   helm-version: "v3.14.4"
