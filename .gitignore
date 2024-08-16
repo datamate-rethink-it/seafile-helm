@@ -1,4 +1,6 @@
 # Ignore files from main / development branches.
 seafile/charts
 seafile/Chart.lock
+seafile/my-values.yaml
+seafile/dev
 values.yaml
