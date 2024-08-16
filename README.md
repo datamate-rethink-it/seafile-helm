@@ -1,6 +1,7 @@
 # Seafile Helm Chart
 
-A [Helm](https://helm.sh) chart to install [Seafile](https://seafile.com) on [Kubernetes](https://kubernetes.io)
+A [Helm](https://helm.sh) chart to install [Seafile](https://seafile.com), the open source file sync and share platform,
+focusing on reliability and performance on [Kubernetes](https://kubernetes.io)
 
 Please see [seafile/README.md](seafile/README.md) for detailed information & instructions.
 
