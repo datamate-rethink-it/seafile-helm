@@ -1,3 +1,11 @@
+tmp
+seafile.github.io
+seafile/charts
+seafile/Chart.lock
+seafile/index.yaml
+seafile/requirements.lock
+values.yaml
+
 playground
 seafile/my-values.yaml
 seafile/dev_stuff
