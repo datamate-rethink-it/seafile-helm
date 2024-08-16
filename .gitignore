@@ -1,3 +1,4 @@
-playground
-seafile/my-values.yaml
-seafile/dev_stuff
+# Ignore files from main / development branches.
+seafile/charts
+seafile/Chart.lock
+values.yaml
