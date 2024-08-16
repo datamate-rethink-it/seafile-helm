@@ -1,0 +1,44 @@
+apiVersion: v1
+entries:
+  seafile:
+  - apiVersion: v2
+    appVersion: 11.0.13
+    created: "2024-08-16T14:51:49.438877686Z"
+    dependencies:
+    - condition: memcached.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.4.11
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.17.6
+    - condition: minio.enabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.7.0
+    - condition: mariadb.enabled
+      name: mariadb
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.0.4
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.0.2
+    description: A Helm chart for Seafile. Seafile is an open source file sync and
+      share platform, focusing on reliability and performance.
+    digest: 13e761343bfe18f9d381ac72266c2f7ef425cb4b792bd48301f5525e0c78e46a
+    home: https://seafile.com
+    icon: https://de.seafile.com/wp-content/themes/seafileger/img/svg/seafile_logo_proposed.svg
+    maintainers:
+    - email: cdb@datamate.org
+      name: cdb
+    name: seafile
+    sources:
+    - https://github.com/haiwen/seafile
+    - https://github.com/datamate-rethink-it/seafile-helm
+    type: application
+    urls:
+    - https://github.com/datamate-rethink-it/seafile-helm/releases/download/seafile-0.1.1/seafile-0.1.1.tgz
+    version: 0.1.1
+generated: "2024-08-16T14:51:49.438893776Z"
