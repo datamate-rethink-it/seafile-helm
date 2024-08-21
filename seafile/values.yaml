@@ -46,15 +46,15 @@ seafileConfig:
   redis:
     host: redis
 
-  # das hier nutze ich aktuell noch nicht...
-  #memcached:
-  #  host: seafile-memcached
-  #  port: 11211
-  #  # das hier geht schonmal...
+  # Needs to be configured in case the included subchart is disabled
+  memcached:
+    host: seafile-memcached
+    port: 11211
 
-  #elasticsearch:
-  #  host: seafile-elasticsearch
-  #  port: 9200
+  # Needs to be configured in case the included subchart is disabled
+  elasticsearch:
+    host: seafile-elasticsearch
+    port: 9200
     
   
 

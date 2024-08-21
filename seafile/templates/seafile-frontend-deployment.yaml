@@ -49,15 +49,15 @@ spec:
               {{- if .Values.memcached.enabled }}
               value: {{ printf "%s-memcached" .Release.Name | quote }}
               {{- else}}
-              # TODO: Add variable to values.yaml to customize this value
-              value: "seafile-memcached"
+              value: {{ .Values.seafileConfig.memcached.host | quote }}
               {{- end }}
+            - name: SEAHUB__CACHE_PORT
+              value: {{ default "11211" .Values.seafileConfig.memcached.port | quote }}
             - name: SEAFILE__memcached__memcached_options
               {{- if .Values.memcached.enabled }}
               value: {{ printf "--SERVER=%s-memcached --POOL-MIN=10 --POOL-MAX=100" .Release.Name | quote }}
               {{- else}}
-              # TODO: Add variable to values.yaml to customize host
-              value: "--SERVER=seafile-memcached --POOL-MIN=10 --POOL-MAX=100"
+              value: "--SERVER={{ .Values.seafileConfig.memcached.host }} --POOL-MIN=10 --POOL-MAX=100"
               {{- end }}
             {{- if .Values.seafileConfig.useS3Storage }}
             - name: SEAFILE__storage__enable_storage_classes
@@ -69,9 +69,10 @@ spec:
               {{- if .Values.elasticsearch.enabled }}
               value: {{ printf "%s-elasticsearch" .Release.Name | quote }}
               {{- else}}
-              # TODO: Add variable to values.yaml to customize this value
-              value: "seafile-elasticsearch"
+              value: {{ .Values.seafileConfig.elasticsearch.host | quote }}
               {{- end }}
+            - name: SEAFEVENTS__INDEX0x20FILES__es_port
+              value: {{ default "9200" .Values.seafileConfig.elasticsearch.port | quote }}
             - name: REQUESTS_CA_BUNDLE
               value: "/etc/ssl/certs/ca-certificates.crt"
             {{- if .Values.extraEnv }}
