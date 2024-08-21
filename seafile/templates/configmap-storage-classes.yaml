@@ -11,7 +11,11 @@ data:
         "is_default": true,
         "commits": {
           "backend": "s3",
+          {{- if .Values.minio.enabled }}
+          "host": {{ printf "%s-minio:9000" .Release.Name | quote }},
+          {{- else}}
           "host": "{{ .Values.seafileConfig.s3.host }}:{{ .Values.seafileConfig.s3.port }}",
+          {{- end }}
           "use_https": {{ .Values.seafileConfig.s3.use_https | quote }},
           "bucket": {{ .Values.seafileConfig.s3.bucketNameCommits | quote }},
           "key_id": {{ .Values.seafileConfig.s3.apiKey | quote }},
@@ -20,7 +24,11 @@ data:
         },
         "fs": {
           "backend": "s3",
+          {{- if .Values.minio.enabled }}
+          "host": {{ printf "%s-minio:9000" .Release.Name | quote }},
+          {{- else}}
           "host": "{{ .Values.seafileConfig.s3.host }}:{{ .Values.seafileConfig.s3.port }}",
+          {{- end }}
           "use_https": {{ .Values.seafileConfig.s3.use_https | quote }},
           "bucket": {{ .Values.seafileConfig.s3.bucketNameFs | quote }},
           "key_id": {{ .Values.seafileConfig.s3.apiKey | quote }},
@@ -29,7 +37,11 @@ data:
         },
         "blocks": {
           "backend": "s3",
+          {{- if .Values.minio.enabled }}
+          "host": {{ printf "%s-minio:9000" .Release.Name | quote }},
+          {{- else}}
           "host": "{{ .Values.seafileConfig.s3.host }}:{{ .Values.seafileConfig.s3.port }}",
+          {{- end }}
           "use_https": {{ .Values.seafileConfig.s3.use_https | quote }},
           "bucket": {{ .Values.seafileConfig.s3.bucketNameBlocks | quote }},
           "key_id": {{ .Values.seafileConfig.s3.apiKey | quote }},

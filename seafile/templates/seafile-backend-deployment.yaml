@@ -17,7 +17,12 @@ spec:
           image: {{ .Values.image.repository }}:{{ .Chart.AppVersion }}
           env:
             - name: DB_HOST
+              {{- /* index is necessary since the key contains dashes */ -}}
+              {{- if index .Values "mariadb-galera" "enabled"}}
+              value: {{ printf "%s-mariadb-galera" .Release.Name | quote }}
+              {{- else}}
               value: {{ .Values.seafileConfig.mariadb.host | quote }}
+              {{- end }}
             - name: DB_USER
               value: {{ default "root" .Values.seafileConfig.mariadb.user | quote }}
             - name: DB_PORT
@@ -41,9 +46,19 @@ spec:
             - name: FORCE_HTTPS_IN_CONF
               value: "false"
             - name: SEAHUB__CACHE_HOST
+              {{- if .Values.memcached.enabled }}
+              value: {{ printf "%s-memcached" .Release.Name | quote }}
+              {{- else}}
+              # TODO: Add variable to values.yaml to customize this value
               value: "seafile-memcached"
+              {{- end }}
             - name: SEAFILE__memcached__memcached_options
+              {{- if .Values.memcached.enabled }}
+              value: {{ printf "--SERVER=%s-memcached --POOL-MIN=10 --POOL-MAX=100" .Release.Name | quote }}
+              {{- else}}
+              # TODO: Add variable to values.yaml to customize host
               value: "--SERVER=seafile-memcached --POOL-MIN=10 --POOL-MAX=100"
+              {{- end }}
             {{- if .Values.seafileConfig.useS3Storage }}
             - name: SEAFILE__storage__enable_storage_classes
               value: "true"
@@ -51,7 +66,12 @@ spec:
               value: "/opt/seafile/seafile_storage_classes.json"
             {{- end }}
             - name: SEAFEVENTS__INDEX0x20FILES__es_host
+              {{- if .Values.elasticsearch.enabled }}
+              value: {{ printf "%s-elasticsearch" .Release.Name | quote }}
+              {{- else}}
+              # TODO: Add variable to values.yaml to customize this value
               value: "seafile-elasticsearch"
+              {{- end }}
             - name: REQUESTS_CA_BUNDLE
               value: "/etc/ssl/certs/ca-certificates.crt"
             - name: "SEAFILE__cluster__enabled"
