@@ -12,6 +12,15 @@ seafileConfig:
   replicaCountFrontend: 2
   replicaCountBackend: 1 # currently only 1 backend server is supported.
 
+  hostname: localhost:30000
+
+  seafile:
+    notification:
+      jwtPrivateKey: topsecret
+
+  seahub:
+    secretKey: topsecret
+
   # CONNECTIONS between containers...
   # hier die verbindungskonfiguration für die einzelnen dienste. Wenn diese extern sind, dann einfach 
   # bei den subcharts auf enable: false setzen.
