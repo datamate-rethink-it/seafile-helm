@@ -25,7 +25,7 @@ seafileConfig:
   # Then customize these settings according to your needs
   
   mariadb:
-    host: seafile-mariadb
+    host: seafile-mariadb-galera
     port: 3306
     user: root
     pass: topsecret
@@ -157,34 +157,34 @@ minio:
   # use `kubectl port-forward svc/xxx-minio 9001:9001` for access locally. 
   disableWebUI: true
 
-mariadb:
+mariadb-galera:
   # if set to `false`, no mariadb pod will be started. 
   # You have to use an external sql database and configure it with .Values.seafileConfig.mariadb.
   enabled: true
-  
-  # Single Mariadb pod (only for testing purposes)
-  architecture: standalone
-  
-  # Replication and Authentication
-  #architecture: replication
-  auth:
-    rootPassword: topsecret
-    #replicationUser: replicator
-    #replicationPassword: topsecret
-    # To avoid passwords in your values.yaml, you can comment out the line above
-    # and use and existing Kubernetes secret (auth.rootPassword, auth.password, auth.replicationPassword will be ignored and picked up from this secret). 
-    # The secret has to contain the keys mariadb-root-password, mariadb-replication-password and mariadb-password
-    #existingSecret: 
 
-  primary:
-    persistence:
-      enabled: true
-      size: 8Gi
-      accessModes: ["ReadWriteOnce"]
+  replicaCount: 3
 
-      # To use an existing storageClass or existing pvc, add this here.
-      #storageClass: 
-      #existingClaim:
+  rootUser:
+    user: root
+    password: topsecret
+    # Force users to specify a password
+    forcePassword: true
+
+  galera:
+    mariabackup:
+      user: mariabackup
+      password: topsecret
+      # Force users to specify a password
+      forcePassword: true
+
+  persistence:
+    enabled: true
+    size: 8Gi
+    accessModes: ["ReadWriteOnce"]
+
+    # To use an existing storageClass or existing pvc, add this here.
+    #storageClass:
+    #existingClaim:
 
 # settings for the redis subchart
 redis:

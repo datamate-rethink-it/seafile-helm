@@ -55,11 +55,11 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: minio.enabled
 
-  - name: mariadb
-    version: 19.0.4
-    # docker.io/bitnami/mariadb:11.4.3-debian-12-r0
+  - name: mariadb-galera
+    version: 14.0.9
+    # docker.io/bitnami/mariadb-galera:11.4.3-debian-12-r0
     repository: https://charts.bitnami.com/bitnami
-    condition: mariadb.enabled
+    condition: mariadb-galera.enabled
 
   - name: redis
     version: 20.0.2
