@@ -125,11 +125,11 @@ minio:
   enabled: true
 
   # Standalone setup (only for testing purpose, because pvc are deleted after uninstall) 
-  #mode: standalone 
+  mode: standalone
 
   # Distributed setup (pvc are not deleted after uninstall)
-  mode: distributed
-  statefulset.replicaCount: 4
+  #mode: distributed
+  #statefulset.replicaCount: 4
 
   persistence:
     enabled: true
@@ -140,6 +140,10 @@ minio:
     # To use an existing storageClass or existing pvc, add this here.
     #storageClass: 
     #existingClaim:  #(only in standalone mode)
+
+    annotations:
+      # Keep PVC (is normally deleted when using standalone mode)
+      helm.sh/resource-policy: keep
     
   auth:
     rootUser: minioadmin
