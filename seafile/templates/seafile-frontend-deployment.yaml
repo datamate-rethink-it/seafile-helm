@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
   name: seafile
 spec:
-  replicas: 1
+  replicas: {{ .Values.seafileConfig.replicaCountFrontend }}
   selector:
     matchLabels:
       app: seafile
@@ -59,6 +59,14 @@ spec:
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}
+            {{- end }}
+            {{- if gt (int .Values.seafileConfig.replicaCountFrontend) 1 }}
+            - name: "SEAFILE__cluster__enabled"
+              value: "true"
+            - name: "CLUSTER_SERVER"
+              value: "true"
+            - name: "CLUSTER_MODE"
+              value: "frontend"
             {{- end }}
           volumeMounts:
             - name: {{ include "seafile.fullname" . }}-storage-classes

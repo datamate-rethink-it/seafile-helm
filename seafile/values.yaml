@@ -9,6 +9,9 @@ seafileConfig:
   initialAdminUser: admin@seafile.com
   initialAdminPass: topsecret
 
+  replicaCountFrontend: 2
+  replicaCountBackend: 1 # currently only 1 backend server is supported.
+
   # CONNECTIONS between containers...
   # hier die verbindungskonfiguration für die einzelnen dienste. Wenn diese extern sind, dann einfach 
   # bei den subcharts auf enable: false setzen.
@@ -38,6 +41,10 @@ seafileConfig:
     bucketNameBlocks: seafile-blocks
     bucketNameCommits: seafile-commits
     bucketNameFs: seafile-fs
+
+  # by default memcached is used in favor of redis
+  redis:
+    host: redis
 
   # das hier nutze ich aktuell noch nicht...
   #memcached:
@@ -114,14 +121,26 @@ memcached:
 
 # settings for the minio subchart
 minio:
+  # set to `false` if you want to use an external S3 storage
   enabled: true
-  mode: standalone # standalone geht, aber dann wird der content direkt gelöscht, weil kein statefulset. Besser ist distributed, aber dann muss ich einen sidecar verwenden, damit die buckets angelegt werden.
+
+  # Standalone setup (only for testing purpose, because pvc are deleted after uninstall) 
+  #mode: standalone 
+
+  # Distributed setup (pvc are not deleted after uninstall)
+  mode: distributed
+  statefulset.replicaCount: 4
+
   persistence:
     enabled: true
-    #storageClass: superdupa  # das nur, wenn ich eine existierende pvc habe... später einbauen.
-    #existingClaim: superdupa
-    # warum wird das pvc am ende gelöscht???
-    size: 21Gi
+    size: 22Gi
+    accessModes: ["ReadWriteOnce"]
+    mountPath: /bitnami/minio/data
+    
+    # To use an existing storageClass or existing pvc, add this here.
+    #storageClass: 
+    #existingClaim:  #(only in standalone mode)
+    
   auth:
     rootUser: minioadmin
     rootPassword: topsecret
@@ -130,28 +149,51 @@ minio:
     # The secret has to contain the keys root-user and root-password)
     # existingSecret: minio-credentials
 
+  # this creates the necessary default buckets for seafile
+  # tyically there is no need to change this.
   defaultBuckets: seafile-blocks,seafile-commits,seafile-fs
 
   # You can use this to enable the web UI for debugging.
+  # use `kubectl port-forward svc/xxx-minio 9001:9001` for access locally. 
   disableWebUI: true
 
 mariadb:
+  # if set to `false`, no mariadb pod will be started. 
+  # You have to use an external sql database and configure it with .Values.seafileConfig.mariadb.
   enabled: true
+  
+  # Single Mariadb pod (only for testing purposes)
   architecture: standalone
+  
+  # Replication and Authentication
+  #architecture: replication
   auth:
     rootPassword: topsecret
+    #replicationUser: replicator
+    #replicationPassword: topsecret
+    # To avoid passwords in your values.yaml, you can comment out the line above
+    # and use and existing Kubernetes secret (auth.rootPassword, auth.password, auth.replicationPassword will be ignored and picked up from this secret). 
+    # The secret has to contain the keys mariadb-root-password, mariadb-replication-password and mariadb-password
+    #existingSecret: 
 
-    #replicationUser: xxx
-    #replicationPassword: xxx
+  primary:
+    persistence:
+      enabled: true
+      size: 8Gi
+      accessModes: ["ReadWriteOnce"]
 
-    # ...
-
-    # ...
-    # existingSecret: 
+      # To use an existing storageClass or existing pvc, add this here.
+      #storageClass: 
+      #existingClaim:
 
 # settings for the redis subchart
 redis:
+  # by default memcached is used in favor of redis. There `false` by default.
+  # if set to `false`, no redis pod will be started. 
+  # If you want to use redis (instead of memcached) you have to enable it and configure it with .Values.seafileConfig.redis.
   enabled: false
+  
+  # default architecture is `standalone` because redis is no critical infrastructure for a seafile cluster
   architecture: standalone
   auth:
     password: topsecret
