@@ -24,6 +24,12 @@ Be aware that the Zammad Helm chart version is different from the actual Zammad 
 - Helm 3.2.0+
 - Cluster with at least 4GB of free RAM
 
+### Create a Secret for Your License
+
+```bash
+kubectl create secret generic seafile-license --from-file=seafile-license.txt=$PATH_TO_YOUR_LICENSE_FILE
+```
+
 ## Installing the Chart
 
 To install the chart use the following:

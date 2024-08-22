@@ -104,7 +104,7 @@ spec:
         {{- include "seafile.volumes" . | nindent 8 }}
         - name: {{ include "seafile.fullname" . }}-license
           secret:
-            secretName: {{ include "seafile.fullname" . }}-license
+            secretName: {{ .Values.seafileConfig.licenseSecret }}
             items:
               - key: seafile-license.txt
                 path: seafile-license.txt

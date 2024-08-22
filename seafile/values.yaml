@@ -9,6 +9,9 @@ seafileConfig:
   initialAdminUser: admin@seafile.com
   initialAdminPass: topsecret
 
+  # Name of existing secret that contains your license
+  licenseSecret: seafile-license
+
   replicaCountFrontend: 2
   replicaCountBackend: 1 # currently only 1 backend server is supported.
 
