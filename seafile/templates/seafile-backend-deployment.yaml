@@ -44,7 +44,7 @@ spec:
             - name: SEAHUB__SECRET_KEY
               value: {{ .Values.seafileConfig.seahub.secretKey | quote }}
             - name: FORCE_HTTPS_IN_CONF
-              value: "false"
+              value: "true"
             - name: SEAHUB__CACHE_HOST
               {{- if .Values.memcached.enabled }}
               value: {{ printf "%s-memcached" .Release.Name | quote }}
