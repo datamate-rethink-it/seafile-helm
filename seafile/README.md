@@ -1,4 +1,4 @@
-# Zammad Helm Chart
+# Seafile Helm Chart
 
 A [Helm](https://helm.sh) chart to install [Seafile](https://seafile.com) on [Kubernetes](https://kubernetes.io)
 
@@ -12,7 +12,7 @@ This chart will do the following:
 - Install `Deployment`s for Seafile. Mainly one Seafile-Backend-Server and multiple Seafile-Frontend-Server
 - Install Elasticsearch, Memcached, MariaDB & Minio (optional) as requirements
 
-Be aware that the Zammad Helm chart version is different from the actual Zammad version.
+Be aware that the Seafile Helm chart version is different from the actual Seafile version.
 
 > [!IMPORTANT]  
 > Be aware that the Seafile Helm chart is provided by [datamate](https://datamate.org), the primary support and sales partner in Europe.
