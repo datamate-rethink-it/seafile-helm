@@ -64,6 +64,16 @@ Now you can open <http://localhost:8787> in your browser.
 
 ## Uninstalling the Chart
 
+If you use the included mariadb-galera chart, you need to scale the _StatefulSet_ down before removing all the pods. Otherwise the database cluster won't be able to start up again without making tedious configuration changes.
+
+```bash
+kubectl scale sts $RELEASE-mariadb-galera --replicas=0
+```
+
+Please refer to the mariadb-galera docs for more details ([#1](https://artifacthub.io/packages/helm/bitnami/mariadb-galera#uninstalling-the-chart), [#2](https://artifacthub.io/packages/helm/bitnami/mariadb-galera#bootstraping-a-node-other-than-0)).
+
+---
+
 To remove the chart again use the following:
 
 ```console
