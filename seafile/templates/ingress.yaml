@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: {{ include "seafile.fullname" . }}-ingress
+  annotations:
+    # Increase max body size
+    # TODO: Add a variable for this
+    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+spec:
+  # TODO: Should this be a variable?
+  ingressClassName: nginx
+  # TODO: TLS
+  rules:
+    - host: {{ .Values.seafileConfig.hostname | quote }}
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: seafile
+                port:
+                  number: 80

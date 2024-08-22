@@ -30,6 +30,18 @@ Be aware that the Zammad Helm chart version is different from the actual Zammad 
 kubectl create secret generic seafile-license --from-file=seafile-license.txt=$PATH_TO_YOUR_LICENSE_FILE --namespace seafile
 ```
 
+### Deploy an Ingress Controller (ingress-nginx)
+
+```bash
+helm upgrade --install ingress-nginx ingress-nginx \
+  --repo https://kubernetes.github.io/ingress-nginx \
+  --namespace ingress-nginx --create-namespace
+```
+
+Please refer to the [ingress-nginx docs](https://kubernetes.github.io/ingress-nginx/deploy/#quick-start) for detailed instructions.
+
+**Note:** There are environment/cloud-provider-specific instructions: https://kubernetes.github.io/ingress-nginx/deploy/#cloud-deployments
+
 ## Installing the Chart
 
 To install the chart use the following:
