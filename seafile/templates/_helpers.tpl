@@ -53,15 +53,6 @@ volumes for ...
 {{- define "seafile.volumes" -}}
 - name: {{ include "seafile.fullname" . }}-tmp
   {{- toYaml .Values.seafileConfig.tmpDirVolume | nindent 2 }}
-{{- if .Values.seafileConfig.storageVolume.enabled }}
-{{- if .Values.seafileConfig.storageVolume.existingClaim }}
-- name: {{ include "seafile.fullname" . }}-storage
-  persistentVolumeClaim:
-    claimName: {{ .Values.seafileConfig.storageVolume.existingClaim | default (include "seafile.fullname" .) }}
-{{- else }}
-  {{ fail "Please provide an existing PersistentVolumeClaim with ReadWriteMany access if you enable .Values.seafileConfig.storageVolume." }}
-{{- end -}}
-{{- end -}}
 {{/*- with .Values.seafileConfig.customVolumes }}
 {{ toYaml . }}
 {{- end -*/}}
