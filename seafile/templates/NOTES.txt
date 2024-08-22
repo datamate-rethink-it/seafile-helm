@@ -1,1 +1,2 @@
-tbd...
+{{- /* TODO: Should http:// be supported? */ -}}
+Your Seafile cluster is available at https://{{ .Values.seafileConfig.hostname }}
