@@ -17,4 +17,4 @@ Please see [seafile/README.md](seafile/README.md) for detailed information & ins
 
 ## Contributing
 
-Please see our [contributing guidelines](https://github.com/zammad/zammad-helm/blob/master/CONTRIBUTING.md).
+Please see our [contributing guidelines](https://github.com/datamate-rethink-it/seafile-helm/blob/main/CONTRIBUTING.md).
