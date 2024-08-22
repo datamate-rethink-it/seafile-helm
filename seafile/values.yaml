@@ -23,6 +23,9 @@ seafileConfig:
 
   seahub:
     secretKey: topsecret
+    # Name of existing config map that includes custom logo/favicon/login background image
+    # Set to "" to use the default default images
+    customizationConfigmap: ""
 
   # CONNECTIONS between containers...
   # hier die verbindungskonfiguration für die einzelnen dienste. Wenn diese extern sind, dann einfach 

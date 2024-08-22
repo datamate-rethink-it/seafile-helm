@@ -98,6 +98,20 @@ spec:
               mountPath: /opt/seafile/seafile_storage_classes.json
               subPath: seafile_storage_classes.json
               readOnly: true
+            {{- if .Values.seafileConfig.seahub.customizationConfigmap }}
+            - name: {{ include "seafile.fullname" . }}-seahub-customization
+              mountPath: /shared/seafile/seahub-data/custom/mylogo.png
+              subPath: mylogo.png
+              readOnly: true
+            - name: {{ include "seafile.fullname" . }}-seahub-customization
+              mountPath: /shared/seafile/seahub-data/custom/favicon.ico
+              subPath: favicon.ico
+              readOnly: true
+            - name: {{ include "seafile.fullname" . }}-seahub-customization
+              mountPath: /shared/seafile/seahub-data/custom/login-bg.jpg
+              subPath: login-bg.jpg
+              readOnly: true
+            {{- end }}
           ports:
             - containerPort: 80
           readinessProbe:
@@ -117,3 +131,8 @@ spec:
         - name: {{ include "seafile.fullname" . }}-storage-classes
           configMap:
             name: {{ include "seafile.fullname" . }}-storage-classes
+        {{- if .Values.seafileConfig.seahub.customizationConfigmap }}
+        - name: {{ include "seafile.fullname" . }}-seahub-customization
+          configMap:
+            name: {{ .Values.seafileConfig.seahub.customizationConfigmap }}
+        {{- end }}

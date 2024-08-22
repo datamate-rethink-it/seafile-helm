@@ -78,3 +78,17 @@ To see all configurable options with detailed comments, visit the chart's [value
 ```console
 helm show values datamate/seafile
 ```
+
+### Seahub Customization
+
+Use the following commands if you want to customize Seahub:
+
+1. Create a config map for your custom logo, login background image and favicon:
+    ```bash
+    kubectl create configmap seafile-customization --namespace seafile \
+      --from-file=mylogo.png=$PATH_TO_YOUR_LOGO \
+      --from-file=login-bg.jpg=$PATH_TO_YOUR_LOGIN_BG \
+      --from-file=favicon.ico=$PATH_TO_YOUR_FAVICON
+    ```
+
+2. Set `seafileConfig.seahub.customizationConfigmap` to `seafile-customization` and upgrade your deployment
