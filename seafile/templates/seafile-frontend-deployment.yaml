@@ -91,7 +91,7 @@ spec:
             {{- end }}
           volumeMounts:
             - name: {{ include "seafile.fullname" . }}-license
-              mountPath: /opt/seafile/seafile-license.txt
+              mountPath: /shared/seafile/seafile-license.txt
               subPath: seafile-license.txt
               readOnly: true
             - name: {{ include "seafile.fullname" . }}-storage-classes

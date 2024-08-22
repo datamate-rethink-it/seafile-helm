@@ -26,6 +26,8 @@ Be aware that the Zammad Helm chart version is different from the actual Zammad 
 
 ### Create a Secret for Your License
 
+**Note:** If you don't have a license, create an empty `seafile-license.txt` file. This will allow you to try out Seafile (3 users max).
+
 ```bash
 kubectl create secret generic seafile-license --from-file=seafile-license.txt=$PATH_TO_YOUR_LICENSE_FILE --namespace seafile
 ```
