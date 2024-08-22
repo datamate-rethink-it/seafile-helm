@@ -27,7 +27,7 @@ Be aware that the Zammad Helm chart version is different from the actual Zammad 
 ### Create a Secret for Your License
 
 ```bash
-kubectl create secret generic seafile-license --from-file=seafile-license.txt=$PATH_TO_YOUR_LICENSE_FILE
+kubectl create secret generic seafile-license --from-file=seafile-license.txt=$PATH_TO_YOUR_LICENSE_FILE --namespace seafile
 ```
 
 ## Installing the Chart
@@ -36,7 +36,7 @@ To install the chart use the following:
 
 ```console
 helm repo add datamate https://datamate-rethink-it.github.io/seafile-helm
-helm upgrade --install seafile datamate/seafile
+helm upgrade --install seafile datamate/seafile --namespace seafile --create-namespace
 ```
 
 Once the Seafile pod (like `pod/seafile-5c4ff86d85-vrlr6`) is ready, it can be accessed using the ingress or port forwarding.
@@ -53,7 +53,7 @@ Now you can open <http://localhost:8787> in your browser.
 To remove the chart again use the following:
 
 ```console
-helm delete seafile
+helm delete seafile --namespace seafile
 ```
 
 ## Configuration
