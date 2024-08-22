@@ -27,6 +27,19 @@ seafileConfig:
     # Set to "" to use the default default images
     customizationConfigmap: ""
 
+  # Extra environment variables
+  extraEnv:
+    # ... for all frontend nodes
+    frontend: []
+      # Example:
+      #- name: SEAHUB__USER_PASSWORD_MIN_LENGTH
+      #  value: 12
+    # ... for the backend node
+    backend: []
+      # Example:
+      #- name: SEAFEVENTS__INDEX0x20FILES__interval
+      #  value: 5m
+
   # CONNECTIONS between containers...
   # hier die verbindungskonfiguration für die einzelnen dienste. Wenn diese extern sind, dann einfach 
   # bei den subcharts auf enable: false setzen.
@@ -92,11 +105,6 @@ seafileConfig:
   # enable "medium: Memory" to Work around problems with world writable tmp dir permissions if volumePermissions.enabled is set to false
   # see: https://github.com/kubernetes/kubernetes/issues/76158 & https://github.com/kubernetes/kubernetes/issues/110835
   # medium: Memory
-
-# additional environment vars added to all seafile services
-extraEnv: []
-  #- name: FOO_BAR
-  #value: "foobar"
 
 #################
 # dependency charts config

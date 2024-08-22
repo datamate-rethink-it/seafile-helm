@@ -81,8 +81,8 @@ spec:
               value: "true"
             - name: "CLUSTER_MODE"
               value: "backend"
-            {{- if .Values.extraEnv }}
-            {{- range .Values.extraEnv }}
+            {{- if .Values.seafileConfig.extraEnv.backend }}
+            {{- range .Values.seafileConfig.extraEnv.backend }}
             - name: {{ .name }}
               value: {{ .value | quote }}
             {{- end }}

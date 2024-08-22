@@ -75,12 +75,6 @@ spec:
               value: {{ default "9200" .Values.seafileConfig.elasticsearch.port | quote }}
             - name: REQUESTS_CA_BUNDLE
               value: "/etc/ssl/certs/ca-certificates.crt"
-            {{- if .Values.extraEnv }}
-            {{- range .Values.extraEnv }}
-            - name: {{ .name }}
-              value: {{ .value | quote }}
-            {{- end }}
-            {{- end }}
             {{- if gt (int .Values.seafileConfig.replicaCountFrontend) 1 }}
             - name: "SEAFILE__cluster__enabled"
               value: "true"
@@ -88,6 +82,12 @@ spec:
               value: "true"
             - name: "CLUSTER_MODE"
               value: "frontend"
+            {{- end }}
+            {{- if .Values.seafileConfig.extraEnv.frontend }}
+            {{- range .Values.seafileConfig.extraEnv.frontend }}
+            - name: {{ .name }}
+              value: {{ .value | quote }}
+            {{- end }}
             {{- end }}
           volumeMounts:
             - name: {{ include "seafile.fullname" . }}-license
