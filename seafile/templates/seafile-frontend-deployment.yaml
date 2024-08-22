@@ -100,6 +100,12 @@ spec:
               readOnly: true
           ports:
             - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: /api2/ping
+              port: 80
+            initialDelaySeconds: 3
+            periodSeconds: 3
       volumes:
         {{- include "seafile.volumes" . | nindent 8 }}
         - name: {{ include "seafile.fullname" . }}-license
