@@ -15,6 +15,7 @@ spec:
       containers:
         - name: seafile-backend
           image: {{ .Values.image.repository }}:{{ .Chart.AppVersion }}
+          imagePullPolicy: Always
           env:
             - name: DB_HOST
               {{- /* index is necessary since the key contains dashes */ -}}
