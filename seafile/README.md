@@ -24,6 +24,12 @@ Be aware that the Seafile Helm chart version is different from the actual Seafil
 - Helm 3.2.0+
 - Cluster with at least 4GB of free RAM
 
+### Create a Namespace
+
+```bash
+kubectl create namespace seafile
+```
+
 ### Create a Secret for Your License
 
 **Note:** If you don't have a license, create an empty `seafile-license.txt` file. This will allow you to try out Seafile (3 users max).
@@ -67,7 +73,7 @@ Now you can open <http://localhost:8787> in your browser.
 If you use the included mariadb-galera chart, you need to scale the _StatefulSet_ down before removing all the pods. Otherwise the database cluster won't be able to start up again without making tedious configuration changes.
 
 ```bash
-kubectl scale sts $RELEASE-mariadb-galera --replicas=0
+kubectl scale sts $RELEASE-mariadb-galera --namespace seafile --replicas=0
 ```
 
 Please refer to the mariadb-galera docs for more details ([#1](https://artifacthub.io/packages/helm/bitnami/mariadb-galera#uninstalling-the-chart), [#2](https://artifacthub.io/packages/helm/bitnami/mariadb-galera#bootstraping-a-node-other-than-0)).
