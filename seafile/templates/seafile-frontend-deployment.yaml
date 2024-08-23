@@ -35,6 +35,10 @@ spec:
               value: {{ .Values.seafileConfig.initialAdminUser | quote }}
             - name: SEAFILE_ADMIN_PASSWORD
               value: {{ .Values.seafileConfig.initialAdminPass | quote }}
+            - name: SEAFILE_LOG_TO_STDOUT
+              value: {{ .Values.seafileConfig.logStdout | quote }}
+            - name: SEAFILE_LOG_LEVEL
+              value: {{ .Values.seafileConfig.logLevel | quote }}
             - name: SEAFILE_SERVER_LETSENCRYPT
               value: "false"
             - name: SEAFILE_SERVER_HOSTNAME

@@ -17,6 +17,11 @@ seafileConfig:
 
   hostname: localhost
 
+  # Whether to send logs to stdout (false => creates log files)
+  logStdout: true
+  # Log level (Seahub only at the moment)
+  logLevel: WARNING
+
   seafile:
     notification:
       jwtPrivateKey: topsecret
