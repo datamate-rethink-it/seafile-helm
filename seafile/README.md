@@ -48,7 +48,38 @@ helm upgrade --install ingress-nginx ingress-nginx \
 
 Please refer to the [ingress-nginx docs](https://kubernetes.github.io/ingress-nginx/deploy/#quick-start) for detailed instructions.
 
-**Note:** There are environment/cloud-provider-specific instructions: https://kubernetes.github.io/ingress-nginx/deploy/#cloud-deployments
+**Note:** There are environment/cloud-provider-specific instructions: https://kubernetes.github.io/ingress-nginx/deploy/#cloud-deployments (e.g. for DigitalOcean)
+
+### DNS
+
+Wait until your cloud provider has allocated an external IP address to the ingress controller:
+
+```bash
+kubectl get services -n ingress-nginx --watch
+```
+
+Once this is done, you can create your DNS record using this external IP address.
+
+### TLS
+
+1. Deploy cert-manager [using Helm](https://cert-manager.io/docs/installation/helm/)
+1. Configure a [Let's Encrypt Issuer](https://cert-manager.io/docs/tutorials/acme/nginx-ingress/#step-6---configure-a-lets-encrypt-issuer) (inside the `seafile` namespace)
+1. Note down the issuer resource name
+
+**Note:**
+On DigitalOcean (and many other cloud providers), ingress-nginx/the CCM provisions a load balancer which uses the `PROXY` protocol to send traffic
+to the ingress controller. The advantage is that all headers (e.g. for the client IP) are preserved. However, this causes problems with cert-manager,
+which first tries to initiate a self-check and does not support the proxy protocol ([#466](https://github.com/cert-manager/cert-manager/issues/466)).
+ingress-nginx expects all requests to use this protocol.
+
+There are a few possible workarounds:
+1. Deploy [hairpin-proxy](https://github.com/webofmars/hairpin-proxy) which uses a custom controller to modify CoreDNS Corefiles:
+    ```bash
+    kubectl apply -f https://raw.githubusercontent.com/webofmars/hairpin-proxy/v0.5.0/deploy.yml
+    ```
+2. Use an additional DNS record and custom annotations to work arounds this issue (e.g. [for DigitalOcean](https://www.digitalocean.com/community/tutorials/how-to-set-up-an-nginx-ingress-with-cert-manager-on-digitalocean-kubernetes#step-5-enabling-pod-communication-through-the-load-balancer-optional))
+3. Terminate TLS at the load balancer
+4. Wait for [KEP 1860](https://github.com/kubernetes/enhancements/issues/1860), which should hopefully fix this issue
 
 ## Installing the Chart
 
@@ -56,7 +87,9 @@ To install the chart use the following:
 
 ```console
 helm repo add datamate https://datamate-rethink-it.github.io/seafile-helm
-helm upgrade --install seafile datamate/seafile --namespace seafile --create-namespace
+helm upgrade --install seafile datamate/seafile --namespace seafile --create-namespace \
+  --set seafileConfig.hostname=$HOSTNAME \
+  --set seafileConfig.tls.certManagerIssuer=$ISSUER_RESOURCE
 ```
 
 Once the Seafile pod (like `pod/seafile-5c4ff86d85-vrlr6`) is ready, it can be accessed using the ingress or port forwarding.

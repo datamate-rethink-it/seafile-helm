@@ -17,6 +17,10 @@ seafileConfig:
 
   hostname: localhost
 
+  tls:
+    # Name of issuer resource
+    certManagerIssuer: "letsencrypt-prod"
+
   # Whether to send logs to stdout (false => creates log files)
   logStdout: true
   # Log level (Seahub only at the moment)
