@@ -3,18 +3,17 @@ kind: Ingress
 metadata:
   name: {{ include "seafile.fullname" . }}-ingress
   annotations:
-    # Name of issuer resource
-    cert-manager.io/issuer: {{ .Values.seafileConfig.tls.certManagerIssuer }}
-    # Increase max body size
-    # TODO: Add a variable for this
-    nginx.ingress.kubernetes.io/proxy-body-size: 100m
+  {{- with .Values.seafileConfig.ingress.annotations }}
+  {{- toYaml . | nindent 4 }}
+  {{- end }}
 spec:
-  # TODO: Should this be a variable?
-  ingressClassName: nginx
+  ingressClassName: {{ .Values.seafileConfig.ingress.className | quote }}
+  {{- if .Values.seafileConfig.ingress.enableTls }}
   tls:
     - hosts:
         - {{ .Values.seafileConfig.hostname | quote }}
       secretName: seafile-tls-secret
+  {{- end }}
   rules:
     - host: {{ .Values.seafileConfig.hostname | quote }}
       http:

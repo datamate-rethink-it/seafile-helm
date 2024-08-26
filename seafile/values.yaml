@@ -17,9 +17,15 @@ seafileConfig:
 
   hostname: localhost
 
-  tls:
-    # Name of issuer resource
-    certManagerIssuer: "letsencrypt-prod"
+  ingress:
+    annotations:
+      # Name of existing issuer resource
+      cert-manager.io/issuer: letsencrypt-prod
+      # Increase max body size
+      nginx.ingress.kubernetes.io/proxy-body-size: 100m
+      nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    className: nginx
+    enableTls: true
 
   # Whether to send logs to stdout (false => creates log files)
   logStdout: true
