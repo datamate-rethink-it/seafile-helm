@@ -148,6 +148,15 @@ minio:
   #mode: distributed
   #statefulset.replicaCount: 4
 
+  provisioning:
+    # Enable provisioning job
+    enabled: true
+    # Create default buckets for Seafile
+    buckets:
+      - name: seafile-blocks
+      - name: seafile-commits
+      - name: seafile-fs
+
   persistence:
     enabled: true
     size: 22Gi
@@ -169,10 +178,6 @@ minio:
     # auth.rootPassword will be ignored and picked up from this secret).
     # The secret has to contain the keys root-user and root-password)
     # existingSecret: minio-credentials
-
-  # this creates the necessary default buckets for seafile
-  # tyically there is no need to change this.
-  defaultBuckets: seafile-blocks,seafile-commits,seafile-fs
 
   # You can use this to enable the web UI for debugging.
   # use `kubectl port-forward svc/xxx-minio 9001:9001` for access locally. 
