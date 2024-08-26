@@ -83,23 +83,26 @@ There are a few possible workarounds:
 
 ## Installing the Chart
 
+Create a custom values file:
+
+```bash
+touch my-values.yaml
+```
+
+Make configuration changes:
+
+```yaml
+seafileConfig:
+  # Enter your hostname
+  hostname: ""
+```
+
 To install the chart use the following:
 
 ```console
 helm repo add datamate https://datamate-rethink-it.github.io/seafile-helm
-helm upgrade --install seafile datamate/seafile --namespace seafile --create-namespace \
-  --set seafileConfig.hostname=$HOSTNAME \
-  --set seafileConfig.tls.certManagerIssuer=$ISSUER_RESOURCE
+helm upgrade --install seafile datamate/seafile --namespace seafile --create-namespace --values my-values.yaml
 ```
-
-Once the Seafile pod (like `pod/seafile-5c4ff86d85-vrlr6`) is ready, it can be accessed using the ingress or port forwarding.
-To use port forwarding:
-
-```console
-kubectl port-forward service/seafile 8787
-```
-
-Now you can open <http://localhost:8787> in your browser.
 
 ## Uninstalling the Chart
 
