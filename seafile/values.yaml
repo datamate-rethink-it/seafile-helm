@@ -4,10 +4,8 @@ image:
 timezone: Europe/Berlin
 
 seafileConfig:
-
-  # initial admin user 
-  initialAdminUser: admin@seafile.com
-  initialAdminPass: topsecret
+  # Name of existing secret with admin credentials (Keys: email/password)
+  adminCredentialsSecret: seafile-admin-credentials
 
   # Name of existing secret that contains your license
   licenseSecret: seafile-license

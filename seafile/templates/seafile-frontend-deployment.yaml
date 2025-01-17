@@ -33,9 +33,15 @@ spec:
             - name: TIME_ZONE
               value: {{ default "Europe/Berlin" .Values.timezone | quote }}
             - name: SEAFILE_ADMIN_EMAIL
-              value: {{ .Values.seafileConfig.initialAdminUser | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.seafileConfig.adminCredentialsSecret | quote }}
+                  key: email
             - name: SEAFILE_ADMIN_PASSWORD
-              value: {{ .Values.seafileConfig.initialAdminPass | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.seafileConfig.adminCredentialsSecret | quote }}
+                  key: password
             - name: SEAFILE_LOG_TO_STDOUT
               value: {{ .Values.seafileConfig.logStdout | quote }}
             - name: SEAFILE_LOG_LEVEL

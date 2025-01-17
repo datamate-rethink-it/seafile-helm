@@ -38,6 +38,14 @@ kubectl create namespace seafile
 kubectl create secret generic seafile-license --from-file=seafile-license.txt=$PATH_TO_YOUR_LICENSE_FILE --namespace seafile
 ```
 
+### Create a Secret for Your Initial Admin Credentials
+
+**Note:** These values are only used when the initial admin user is created.
+
+```bash
+kubectl create secret generic seafile-admin-credentials -n seafile --from-literal=email='YOUR_ADMIN_EMAIL' --from-literal=password='YOUR_ADMIN_PASSWORD'
+```
+
 ### Deploy an Ingress Controller (ingress-nginx)
 
 ```bash
