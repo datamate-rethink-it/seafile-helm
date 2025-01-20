@@ -1,0 +1,19 @@
+{{- if .Values.seafileConfig.clamav.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: seafile-clamav
+spec:
+  selector:
+    matchLabels:
+      app: seafile-clamav
+  template:
+    metadata:
+      labels:
+        app: seafile-clamav
+    spec:
+      containers:
+        - name: seafile-clamav
+          image: clamav/clamav:1.4.1
+          imagePullPolicy: Always
+{{- end }}

@@ -1,0 +1,16 @@
+{{- if .Values.seafileConfig.clamav.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  # Must be "av" since this value is hardcoded in the Seafile container in /etc
+  # TODO: Make this configurable + allow configuring port in /etc/clamav/clamd.conf in Seafile container
+  name: av
+spec:
+  selector:
+    app: seafile-clamav
+  type: ClusterIP
+  ports:
+    - protocol: TCP
+      port: 3310
+      targetPort: 3310
+{{- end }}

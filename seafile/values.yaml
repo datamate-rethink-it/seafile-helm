@@ -97,6 +97,10 @@ seafileConfig:
     host: seafile-elasticsearch
     port: 9200
 
+  # TODO: Use https://artifacthub.io/packages/helm/clamav/clamav instead of custom manifests?
+  clamav:
+    enabled: false
+
   tmpDirVolume:
     emptyDir:
       sizeLimit: 100Mi
