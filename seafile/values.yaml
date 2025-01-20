@@ -241,3 +241,32 @@ redis:
     # requests:
     #   cpu: 250m
     #   memory: 256Mi
+
+# Settings for Collabora subchart: https://artifacthub.io/packages/helm/collabora-online/collabora-online
+collabora-online:
+  enabled: false
+  image:
+    tag: 24.04.11.3.1
+
+  replicaCount: 1
+  autoscaling:
+    enabled: false
+
+  ingress:
+    enabled: true
+    className: "nginx"
+    annotations:
+      nginx.ingress.kubernetes.io/upstream-hash-by: "$arg_WOPISrc"
+      nginx.ingress.kubernetes.io/proxy-body-size: "0"
+      nginx.ingress.kubernetes.io/proxy-read-timeout: "600"
+      nginx.ingress.kubernetes.io/proxy-send-timeout: "600"
+    # Must be configured
+    hosts: []
+
+  resources:
+   limits:
+      cpu: "1800m"
+      memory: "2000Mi"
+   requests:
+      cpu: "1800m"
+      memory: "2000Mi"

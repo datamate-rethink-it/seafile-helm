@@ -66,3 +66,8 @@ dependencies:
     # docker.io/bitnami/redis:7.4.0-debian-12-r1
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
+
+  - name: collabora-online
+    version: 1.1.30
+    repository: https://collaboraonline.github.io/online
+    condition: collabora-online.enabled
