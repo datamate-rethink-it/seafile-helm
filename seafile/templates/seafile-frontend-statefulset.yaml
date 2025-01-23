@@ -1,9 +1,10 @@
 apiVersion: apps/v1
-kind: Deployment
+kind: StatefulSet
 metadata:
   name: seafile
 spec:
   replicas: {{ .Values.seafileConfig.replicaCountFrontend }}
+  serviceName: seafile
   selector:
     matchLabels:
       app: seafile
