@@ -52,9 +52,15 @@ spec:
             - name: SEAFILE_SERVER_HOSTNAME
               value: {{ .Values.seafileConfig.hostname | quote }}
             - name: SEAFILE__notification__jwt_private_key
-              value: {{ .Values.seafileConfig.seafile.notification.jwtPrivateKey | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.seafileConfig.notificationServerPrivateKeySecret | quote }}
+                  key: privateKey
             - name: SEAHUB__SECRET_KEY
-              value: {{ .Values.seafileConfig.seahub.secretKey | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.seafileConfig.seahubSecretKeySecret | quote }}
+                  key: secretKey
             - name: FORCE_HTTPS_IN_CONF
               value: "true"
             - name: SEAHUB__CACHE_HOST
@@ -144,8 +150,11 @@ spec:
               - key: seafile-license.txt
                 path: seafile-license.txt
         - name: {{ include "seafile.fullname" . }}-storage-classes
-          configMap:
-            name: {{ include "seafile.fullname" . }}-storage-classes
+          secret:
+            secretName: {{ .Values.seafileConfig.storageClassesSecret }}
+            items:
+              - key: seafile_storage_classes.json
+                path: seafile_storage_classes.json
         {{- if .Values.seafileConfig.seahub.customizationConfigmap }}
         - name: {{ include "seafile.fullname" . }}-seahub-customization
           configMap:

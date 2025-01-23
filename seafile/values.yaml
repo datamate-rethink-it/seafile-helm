@@ -10,6 +10,16 @@ seafileConfig:
   # Name of existing secret that contains your license
   licenseSecret: seafile-license
 
+  # Name of existing secret that contains the secret key for Seahub (Key: secretKey)
+  seahubSecretKeySecret: seafile-seahub-secret-key
+
+  # Name of existing secret that contains the private key for the notification server (Key: privateKey)
+  notificationServerPrivateKeySecret: seafile-notification-server-private-key
+
+  # Name of existing secret that contains the storage class configuration (Key: seafile_storage_classes.json)
+  # This is mounted as a file
+  storageClassesSecret: seafile-storage-classes
+
   replicaCountFrontend: 2
   replicaCountBackend: 1 # currently only 1 backend server is supported.
 
@@ -30,12 +40,7 @@ seafileConfig:
   # Log level (Seahub only at the moment)
   logLevel: WARNING
 
-  seafile:
-    notification:
-      jwtPrivateKey: topsecret
-
   seahub:
-    secretKey: topsecret
     # Name of existing config map that includes custom logo/favicon/login background image
     # Set to "" to use the default default images
     customizationConfigmap: ""
@@ -72,16 +77,6 @@ seafileConfig:
     pass: topsecret
 
   useS3Storage: true ## TODO: will ich das wirklich so nennen?
-  s3:
-    host: seafile-minio
-    port: 9000
-    use_https: false
-    path_style_request: true
-    apiKey: minioadmin # key_id
-    apiKeyPass: topsecret # key
-    bucketNameBlocks: seafile-blocks
-    bucketNameCommits: seafile-commits
-    bucketNameFs: seafile-fs
 
   # by default memcached is used in favor of redis
   redis:
