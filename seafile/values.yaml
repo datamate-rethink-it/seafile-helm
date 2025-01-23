@@ -108,6 +108,16 @@ seafileConfig:
   # see: https://github.com/kubernetes/kubernetes/issues/76158 & https://github.com/kubernetes/kubernetes/issues/110835
   # medium: Memory
 
+  volumes:
+    data:
+      storageClass: ""
+      accessModes:
+        - ReadWriteOnce
+      # For logs and current_version
+      # Note that K8S does not support resizing for volumes attached to StatefulSets: https://github.com/kubernetes/kubernetes/issues/68737
+      # Workaround: https://serverfault.com/a/997236
+      size: 10Gi
+
 #################
 # dependency charts config
 #################

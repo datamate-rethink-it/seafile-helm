@@ -102,6 +102,8 @@ spec:
             {{- end }}
             {{- end }}
           volumeMounts:
+            - name: {{ include "seafile.fullname" . }}-data
+              mountPath: /shared
             - name: {{ include "seafile.fullname" . }}-license
               mountPath: /shared/seafile/seafile-license.txt
               subPath: seafile-license.txt
@@ -134,6 +136,7 @@ spec:
             periodSeconds: 3
       volumes:
         {{- include "seafile.volumes" . | nindent 8 }}
+        - name: {{ include "seafile.fullname" . }}-data
         - name: {{ include "seafile.fullname" . }}-license
           secret:
             secretName: {{ .Values.seafileConfig.licenseSecret }}
@@ -148,3 +151,15 @@ spec:
           configMap:
             name: {{ .Values.seafileConfig.seahub.customizationConfigmap }}
         {{- end }}
+  volumeClaimTemplates:
+    - metadata:
+        name: {{ include "seafile.fullname" . }}-data
+      spec:
+        accessModes:
+          {{- range .Values.seafileConfig.volumes.data.accessModes }}
+          - {{ . | quote }}
+          {{- end }}
+        storageClassName: {{ .Values.seafileConfig.volumes.data.storageClass }}
+        resources:
+          requests:
+            storage: {{ .Values.seafileConfig.volumes.data.size | quote }}
