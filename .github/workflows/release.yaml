@@ -34,36 +34,35 @@ jobs:
         with:
           version: "${{ env.helm-version }}"
 
-      - name: Install Helm schema-gen plugin
-        run: helm plugin install https://github.com/karuppiah7890/helm-schema-gen
-
-      - name: Generate values schema
-        run: |
-          for dir in */; do
-            if [ -f "${dir}values.yaml" ]; then
-              helm schema-gen "${dir}values.yaml" > "${dir}values.schema.json"
-            fi
-          done
+      - name: Generate values schema json
+        uses: losisin/helm-values-schema-json-action@v1
+        with:
+          input: values.yaml
 
       - name: Add dependency chart repos
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
 
-      - name: Import GPG key
-        run: |
-          echo "${{ secrets.GPG_PRIVATE_KEY }}" | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
+      # from https://blog.devops.dev/a-guide-to-signing-helm-charts-with-gpg-using-github-action-and-sign-images-on-artifacthub-958a23010e94
+      #- name: Prepare GPG key #this step is for using exported keys and make your github runner
+      #  run: |
+      #    gpg_dir=.cr-gpg
+      #    mkdir "$gpg_dir"
+      #    keyring="$gpg_dir/secring.gpg"
+      #    base64 -d <<< "$GPG_KEYRING_BASE64" > "$keyring"
+      #    passphrase_file="$gpg_dir/passphrase"
+      #    echo "$GPG_PASSPHRASE" > "$passphrase_file"
+      #    echo "CR_PASSPHRASE_FILE=$passphrase_file" >> "$GITHUB_ENV"
+      #    echo "CR_KEYRING=$keyring" >> "$GITHUB_ENV"
+      #  env:
+      #    GPG_KEYRING_BASE64: "${{ secrets.GPG_KEYRING_BASE64 }}"
+      #    GPG_PASSPHRASE: "${{ secrets.GPG_PASSPHRASE }}"  
 
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.6.0
-        env:
-          CR_GENERATE_RELEASE_NOTES: true
-          CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          CR_SIGN: true
-          CR_KEYRING: "/home/runner/.gnupg/secring.gpg"
-          CR_KEY: "${{ secrets.GPG_KEYID }}"
-          CR_PASSPHRASE: "${{ secrets.GPG_PASSPHRASE }}"
-        with:
-          charts_dir: .
+      #- name: Run chart-releaser #this is used to generate new version of helm chart along with some file with extension .prov
+      #  uses: helm/chart-releaser-action@a917fd15b20e8b64b94d9158ad54cd6345335584 #v1.6.0
+      #  env:
+      #    CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+      #    CR_KEY: "${{ secrets.CR_KEY }}"
+      #    CR_SIGN: true # set to true to sign images
 
       # see https://github.com/helm/chart-releaser/issues/183
       - name: Login to GitHub Container Registry
