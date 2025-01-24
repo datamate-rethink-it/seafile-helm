@@ -38,6 +38,7 @@ jobs:
         uses: losisin/helm-values-schema-json-action@v1
         with:
           input: seafile/values.yaml
+          output: seafile/values.schema.json
 
       - name: Add dependency chart repos
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
