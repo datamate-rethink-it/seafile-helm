@@ -34,14 +34,35 @@ jobs:
         with:
           version: "${{ env.helm-version }}"
 
+      - name: Install Helm schema-gen plugin
+        run: helm plugin install https://github.com/karuppiah7890/helm-schema-gen
+
+      - name: Generate values schema
+        run: |
+          for dir in */; do
+            if [ -f "${dir}values.yaml" ]; then
+              helm schema-gen "${dir}values.yaml" > "${dir}values.schema.json"
+            fi
+          done
+
       - name: Add dependency chart repos
         run: helm repo add bitnami https://charts.bitnami.com/bitnami
+
+      - name: Import GPG key
+        uses: crazy-max/ghaction-import-gpg@v6
+        with:
+          gpg_private_key: ${{ secrets.GPG_PRIVATE_KEY }}
+          passphrase: ${{ secrets.GPG_PASSPHRASE }}
 
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.6.0
         env:
           CR_GENERATE_RELEASE_NOTES: true
           CR_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          CR_SIGN: true
+          CR_KEYRING: "/home/runner/.gnupg/secring.gpg"
+          CR_KEY: "${{ secrets.GPG_KEYID }}"
+          CR_PASSPHRASE: "${{ secrets.GPG_PASSPHRASE }}"
         with:
           charts_dir: .
 
