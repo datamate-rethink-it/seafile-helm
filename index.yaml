@@ -3,6 +3,50 @@ entries:
   seafile:
   - apiVersion: v2
     appVersion: 11.0.18
+    created: "2025-01-24T09:21:30.351700097Z"
+    dependencies:
+    - condition: memcached.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.4.11
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.17.6
+    - condition: minio.enabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.7.0
+    - condition: mariadb-galera.enabled
+      name: mariadb-galera
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.0.9
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.0.2
+    - condition: collabora-online.enabled
+      name: collabora-online
+      repository: https://collaboraonline.github.io/online
+      version: 1.1.30
+    description: A Helm chart for Seafile. Seafile is an open source file sync and
+      share platform, focusing on reliability and performance.
+    digest: 5f051e15c99f65c71ec4e1d4e4cdf1754d601818f6296ff1c54e8f61f84a2ee8
+    home: https://seafile.com
+    icon: https://de.seafile.com/wp-content/themes/seafileger/img/svg/seafile_logo_proposed.svg
+    maintainers:
+    - email: cdb@datamate.org
+      name: cdb
+    name: seafile
+    sources:
+    - https://github.com/haiwen/seafile
+    - https://github.com/datamate-rethink-it/seafile-helm
+    type: application
+    urls:
+    - https://github.com/datamate-rethink-it/seafile-helm/releases/download/seafile-0.4.2/seafile-0.4.2.tgz
+    version: 0.4.2
+  - apiVersion: v2
+    appVersion: 11.0.18
     created: "2025-01-24T08:53:07.954201865Z"
     dependencies:
     - condition: memcached.enabled
@@ -289,4 +333,4 @@ entries:
     urls:
     - https://github.com/datamate-rethink-it/seafile-helm/releases/download/seafile-0.1.1/seafile-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-24T08:53:07.954227062Z"
+generated: "2025-01-24T09:21:30.351731796Z"
