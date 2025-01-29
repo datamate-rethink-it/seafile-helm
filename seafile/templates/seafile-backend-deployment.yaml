@@ -107,6 +107,9 @@ spec:
               value: {{ .value | quote }}
             {{- end }}
             {{- end }}
+            {{- if .Values.seafileConfig.extraEnvSecrets.backend }}
+            {{- toYaml .Values.seafileConfig.extraEnvSecrets.backend | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - name: {{ include "seafile.fullname" . }}-license
               mountPath: /shared/seafile/seafile-license.txt

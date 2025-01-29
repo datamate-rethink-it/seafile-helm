@@ -110,6 +110,9 @@ spec:
               value: {{ .value | quote }}
             {{- end }}
             {{- end }}
+            {{- if .Values.seafileConfig.extraEnvSecrets.frontend }}
+            {{- toYaml .Values.seafileConfig.extraEnvSecrets.frontend | nindent 12 }}
+            {{- end }}
           volumeMounts:
             - name: {{ include "seafile.fullname" . }}-data
               mountPath: /shared
