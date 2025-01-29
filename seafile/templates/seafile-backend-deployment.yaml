@@ -116,6 +116,7 @@ spec:
               mountPath: /opt/seafile/seafile_storage_classes.json
               subPath: seafile_storage_classes.json
               readOnly: true
+          resources: {{- toYaml .Values.seafileConfig.resources.backend | nindent 12 }}
       volumes:
         {{- include "seafile.volumes" . | nindent 8 }}
         - name: {{ include "seafile.fullname" . }}-license

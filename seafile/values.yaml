@@ -61,6 +61,12 @@ seafileConfig:
       #- name: SEAFEVENTS__INDEX0x20FILES__interval
       #  value: 5m
 
+  # Resource Limits
+  # Accepts standard K8S requests + limits
+  resources:
+    frontend: {}
+    backend: {}
+
   # CONNECTIONS between containers...
   # hier die verbindungskonfiguration für die einzelnen dienste. Wenn diese extern sind, dann einfach 
   # bei den subcharts auf enable: false setzen.

@@ -143,6 +143,7 @@ spec:
               port: 80
             initialDelaySeconds: 3
             periodSeconds: 3
+          resources: {{- toYaml .Values.seafileConfig.resources.frontend | nindent 12 }}
       volumes:
         {{- include "seafile.volumes" . | nindent 8 }}
         - name: {{ include "seafile.fullname" . }}-data
