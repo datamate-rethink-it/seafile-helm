@@ -30,7 +30,10 @@ spec:
             - name: DB_PORT
               value: {{ default "3306" .Values.seafileConfig.mariadb.port | quote }}
             - name: DB_ROOT_PASSWD
-              value: {{ .Values.seafileConfig.mariadb.pass | quote }}
+              valueFrom:
+                secretKeyRef:
+                  name: {{ .Values.seafileConfig.mariadbCredentialsSecret | quote }}
+                  key: mariadb-root-password
             - name: TIME_ZONE
               value: {{ default "Europe/Berlin" .Values.timezone | quote }}
             - name: SEAFILE_ADMIN_EMAIL

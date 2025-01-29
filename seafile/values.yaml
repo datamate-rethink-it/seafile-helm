@@ -20,6 +20,9 @@ seafileConfig:
   # This is mounted as a file
   storageClassesSecret: seafile-storage-classes
 
+  # Name of existing secret that contains the MariaDB credentials (Keys: mariadb-password, mariadb-root-password and mariadb-galera-mariabackup-password)
+  mariadbCredentialsSecret: seafile-mariadb-credentials
+
   replicaCountFrontend: 2
   replicaCountBackend: 1 # currently only 1 backend server is supported.
 
@@ -74,7 +77,6 @@ seafileConfig:
     host: seafile-mariadb-galera
     port: 3306
     user: root
-    pass: topsecret
 
   useS3Storage: true ## TODO: will ich das wirklich so nennen?
 
@@ -203,18 +205,7 @@ mariadb-galera:
 
   replicaCount: 3
 
-  rootUser:
-    user: root
-    password: topsecret
-    # Force users to specify a password
-    forcePassword: true
-
-  galera:
-    mariabackup:
-      user: mariabackup
-      password: topsecret
-      # Force users to specify a password
-      forcePassword: true
+  existingSecret: seafile-mariadb-credentials
 
   persistence:
     enabled: true
