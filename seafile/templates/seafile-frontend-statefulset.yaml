@@ -124,6 +124,10 @@ spec:
               mountPath: /opt/seafile/seafile_storage_classes.json
               subPath: seafile_storage_classes.json
               readOnly: true
+            - name: {{ include "seafile.fullname" . }}-seahub-settings-overrides
+              mountPath: /tmp/seahub_settings_overrides.py
+              subPath: seahub_settings_overrides.py
+              readOnly: true
             {{- if .Values.seafileConfig.seahub.customizationConfigmap }}
             - name: {{ include "seafile.fullname" . }}-seahub-customization
               mountPath: /shared/seafile/seahub-data/custom/mylogo.png
@@ -167,6 +171,9 @@ spec:
           configMap:
             name: {{ .Values.seafileConfig.seahub.customizationConfigmap }}
         {{- end }}
+        - name: {{ include "seafile.fullname" . }}-seahub-settings-overrides
+          configMap:
+            name: seahub-settings-overrides
   volumeClaimTemplates:
     - metadata:
         name: {{ include "seafile.fullname" . }}-data

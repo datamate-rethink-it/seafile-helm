@@ -47,6 +47,10 @@ seafileConfig:
     # Name of existing config map that includes custom logo/favicon/login background image
     # Set to "" to use the default default images
     customizationConfigmap: ""
+    # Additional Seahub settings
+    # These settings are inserted into seahub_settings.py
+    # You should use a multine YAML string ("|") in case you want to insert multiple lines
+    settingsOverrides: ""
 
   # Extra environment variables
   extraEnv:
