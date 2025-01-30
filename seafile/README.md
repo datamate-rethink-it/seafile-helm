@@ -46,6 +46,89 @@ kubectl create secret generic seafile-license --from-file=seafile-license.txt=$P
 kubectl create secret generic seafile-admin-credentials -n seafile --from-literal=email='YOUR_ADMIN_EMAIL' --from-literal=password='YOUR_ADMIN_PASSWORD'
 ```
 
+### Create a Secret for MariaDB Credentials
+
+**Note:** You can use `pwgen -s <LENGTH>` to generate secure random strings.
+
+These credentials are used by the Seafile pods and the Galera Cluster pods.
+
+```bash
+kubectl create secret generic seafile-mariadb-credentials --namespace seafile \
+  --from-literal=mariadb-root-password='LONG_RANDOM_STRING' \
+  --from-literal=mariadb-password='LONG_RANDOM_STRING' \
+  --from-literal=mariadb-galera-mariabackup-password='LONG_RANDOM_STRING'
+```
+
+### Create a Secret for the Seahub Secret Key
+
+```bash
+kubectl create secret generic seafile-seahub-secret-key --namespace seafile \
+  --from-literal=secretKey='LONG_RANDOM_STRING'
+```
+
+### Create a Secret for the Notification Server Private Key
+
+```bash
+kubectl create secret generic seafile-notification-server-private-key --namespace seafile \
+  --from-literal=privateKey='LONG_RANDOM_STRING'
+```
+
+### Create a Secret for the Storage Class Configuration
+
+This secret contains the storage class configuration (e.g. S3 credentials).
+
+```bash
+# Create storage class configuration: https://manual.seafile.com/11.0/deploy_pro/multiple_storage_backends/#defining-storage-backends
+touch seafile_storage_classes.json
+
+kubectl create secret generic seafile-storage-classes --namespace seafile \
+  --from-file=seafile_storage_classes.json=seafile_storage_classes.json
+```
+
+If you use the bundled MinIO chart for testing purposes, you can use the following storage class configuration:
+
+<details>
+  <summary>seafile_storage_classes.json</summary>
+
+  ```json
+  [
+      {
+        "storage_id": "S3",
+        "name": "S3",
+        "is_default": true,
+        "commits": {
+          "backend": "s3",
+          "host": "seafile-minio:9000",
+          "use_https": "false",
+          "bucket": "seafile-commits",
+          "key_id": "minioadmin",
+          "key": "topsecret",
+          "path_style_request": true
+        },
+        "fs": {
+          "backend": "s3",
+          "host": "seafile-minio:9000",
+          "use_https": "false",
+          "bucket": "seafile-fs",
+          "key_id": "minioadmin",
+          "key": "topsecret",
+          "path_style_request": true
+        },
+        "blocks": {
+          "backend": "s3",
+          "host": "seafile-minio:9000",
+          "use_https": "false",
+          "bucket": "seafile-blocks",
+          "key_id": "minioadmin",
+          "key": "topsecret",
+          "path_style_request": true
+        }
+      }
+  ]
+```
+
+</details>
+
 ### Deploy an Ingress Controller (ingress-nginx)
 
 ```bash
