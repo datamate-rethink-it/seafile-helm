@@ -17,4 +17,64 @@ Please see [seafile/README.md](seafile/README.md) for detailed information & ins
 
 ## Contributing
 
-Please see our [contributing guidelines](https://github.com/datamate-rethink-it/seafile-helm/blob/main/CONTRIBUTING.md).
+### Kubernetes Development Environment
+
+You can use an environment provided by [hetznercloud/kubernetes-dev-env](https://github.com/hetznercloud/kubernetes-dev-env) or use your own.
+
+#### Prerequisites
+
+- [`k3sup`](https://github.com/alexellis/k3sup)
+- [`tofu`](https://opentofu.org)
+
+#### Instructions
+
+```bash
+git clone git@github.com:hetznercloud/kubernetes-dev-env.git
+
+cd kubernetes-dev-env
+
+# Token for Hetzner Cloud
+export HCLOUD_TOKEN=''
+
+# Edit example/main.tf and set `deploy_csi_driver` to `true`
+# This is required in order to use volumes
+nano example/main.tf
+
+# Deploy the cluster
+make -C example up
+
+# Load environment variables into session (KUBECONFIG)
+source example/files/env.sh
+```
+
+### Deploy Ingress Controller
+
+Create `ingress-nginx-values.yaml`:
+
+```yaml
+controller:
+  config:
+    use-proxy-protocol: true
+  service:
+    annotations:
+      # kubernetes-dev-env deploys the cluster into hel1 by default
+      load-balancer.hetzner.cloud/location: "hel1"
+      load-balancer.hetzner.cloud/uses-proxyprotocol: true
+```
+
+Deploy the controller:
+
+```bash
+helm upgrade --install ingress-nginx ingress-nginx \
+    --repo https://kubernetes.github.io/ingress-nginx \
+    --namespace ingress-nginx \
+    --create-namespace \
+    -f ingress-nginx-values.yaml
+```
+
+This will automatically provision a load balancer from Hetzner.
+You should use the load balancer's public IP address to access any services deployed inside the cluster.
+
+### Deploy Seafile
+
+Please follow the instructions inside [seafile/README.md](./seafile/README.md).
