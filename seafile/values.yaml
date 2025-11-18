@@ -144,6 +144,10 @@ seafileConfig:
 
 elasticsearch:
   enabled: true
+  image:
+    repository: bitnamilegacy/elasticsearch
+  sysctlImage:
+    repository: bitnamilegacy/os-shell
   clusterName: seafile-elasticsearch
   master:
     heapSize: 512m
@@ -163,6 +167,8 @@ elasticsearch:
 
 memcached:
   enabled: true
+  image:
+    repository: bitnamilegacy/memcached
   replicaCount: 1
   resources: {}
     # requests:
@@ -183,6 +189,9 @@ minio:
   # Distributed setup (pvc are not deleted after uninstall)
   #mode: distributed
   #statefulset.replicaCount: 4
+
+  image:
+    repository: bitnamilegacy/minio
 
   provisioning:
     # Enable provisioning job
@@ -223,7 +232,8 @@ mariadb-galera:
   # if set to `false`, no mariadb pod will be started. 
   # You have to use an external sql database and configure it with .Values.seafileConfig.mariadb.
   enabled: true
-
+  image:
+    repository: bitnamilegacy/mariadb-galera
   replicaCount: 3
 
   existingSecret: seafile-mariadb-credentials
@@ -244,6 +254,9 @@ redis:
   # If you want to use redis (instead of memcached) you have to enable it and configure it with .Values.seafileConfig.redis.
   enabled: false
   
+  image:
+    repository: bitnamilegacy/redis
+
   # default architecture is `standalone` because redis is no critical infrastructure for a seafile cluster
   architecture: standalone
   auth:
