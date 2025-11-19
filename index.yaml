@@ -6,6 +6,54 @@ entries:
         fingerprint: EB897F34A4E514AEAD2B94C3A4C0BC9187350077
         url: https://keys.openpgp.org/vks/v1/by-fingerprint/EB897F34A4E514AEAD2B94C3A4C0BC9187350077
     apiVersion: v2
+    appVersion: 11.0.20
+    created: "2025-11-19T13:20:36.182264114Z"
+    dependencies:
+    - condition: memcached.enabled
+      name: memcached
+      repository: https://charts.bitnami.com/bitnami
+      version: 7.4.11
+    - condition: elasticsearch.enabled
+      name: elasticsearch
+      repository: https://charts.bitnami.com/bitnami
+      version: 19.17.6
+    - condition: minio.enabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.7.0
+    - condition: mariadb-galera.enabled
+      name: mariadb-galera
+      repository: https://charts.bitnami.com/bitnami
+      version: 14.0.9
+    - condition: redis.enabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 20.0.2
+    - condition: collabora-online.enabled
+      name: collabora-online
+      repository: https://collaboraonline.github.io/online
+      version: 1.1.30
+    description: A Helm chart for Seafile. Seafile is an open source file sync and
+      share platform, focusing on reliability and performance.
+    digest: ca03f7ea50bcad42e65e6d3d670163fd85dc6a29f5b0cf1065f365ff837dc300
+    home: https://seafile.com
+    icon: https://de.seafile.com/wp-content/themes/seafileger/img/svg/seafile_logo_proposed.svg
+    maintainers:
+    - email: cdb@datamate.org
+      name: cdb
+    name: seafile
+    sources:
+    - https://github.com/haiwen/seafile
+    - https://github.com/datamate-rethink-it/seafile-helm
+    type: application
+    urls:
+    - https://github.com/datamate-rethink-it/seafile-helm/releases/download/seafile-0.6.0/seafile-0.6.0.tgz
+    version: 0.6.0
+  - annotations:
+      artifacthub.io/signKey: |
+        fingerprint: EB897F34A4E514AEAD2B94C3A4C0BC9187350077
+        url: https://keys.openpgp.org/vks/v1/by-fingerprint/EB897F34A4E514AEAD2B94C3A4C0BC9187350077
+    apiVersion: v2
     appVersion: 11.0.18
     created: "2025-01-30T14:59:52.460842374Z"
     dependencies:
@@ -525,4 +573,4 @@ entries:
     urls:
     - https://github.com/datamate-rethink-it/seafile-helm/releases/download/seafile-0.1.1/seafile-0.1.1.tgz
     version: 0.1.1
-generated: "2025-01-30T14:59:52.460876397Z"
+generated: "2025-11-19T13:20:36.182342892Z"
